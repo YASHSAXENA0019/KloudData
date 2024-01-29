@@ -1,0 +1,54 @@
+<!-- Update the HTML template to display results for each field -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- ... (existing head content) ... -->
+    <title>Result Display</title>
+    <script>
+        function toggleSelectAll() {
+            var checkboxes = document.getElementsByName('fields[]');
+            var selectAllCheckbox = document.getElementById('selectAllCheckbox');
+
+            for (var i = 0; i < checkboxes.length; i++) {
+                checkboxes[i].checked = selectAllCheckbox.checked;
+            }
+        }
+    </script>
+</head>
+<body>
+    <form method="post" action="/" enctype="multipart/form-data">
+        <label for="image">Upload Image:</label>
+        <input type="file" name="image" accept=".png, .jpg, .jpeg">
+
+        <fieldset>
+            <legend>Fields to Check:</legend>
+            <label>
+                <input type="checkbox" id="selectAllCheckbox" onclick="toggleSelectAll()"> Select All
+            </label>
+            {% for field in fields_to_check %}
+                <label>
+                    <input type="checkbox" name="fields[]" value="{{ field }}"> {{ field }}
+                </label>
+            {% endfor %}
+        </fieldset>
+
+        <button type="submit">Submit</button>
+    </form>
+
+    {% if results_by_field %}
+    <div>
+        <h1>Results:</h1>
+        {% for field, result in results_by_field.items() %}
+            <li><strong>{{ field }}:</strong> {{ result }}</li>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    {% if ocr_result %}
+    <div>
+        <h1>Result from OCR:</h1>
+        <p>{{ ocr_result }}</p>
+    </div>
+    {% endif %}
+</body>
+</html>
