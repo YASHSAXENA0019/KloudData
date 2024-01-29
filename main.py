@@ -1,8 +1,9 @@
 from pymongo import MongoClient
+import os
 
 def connection():
 # MongoDB connection details
-    connectionString = ""
+    connectionString = os.environ.get("MONGODB_URI")
     database_name = "Nutrients"
     collection_name = "all"
     collection_name2 = "missing_ingredients"
